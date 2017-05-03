@@ -13,5 +13,8 @@ spring:
       ddl-auto: create #update, validate, create, none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  thymeleaf:
+    cache: false
 server:
   port: 8080
+  
