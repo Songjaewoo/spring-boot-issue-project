@@ -4,11 +4,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.songjaewoo.model.Post;
+import com.songjaewoo.model.dto.PostDto;
 
 public interface PostService {
 	Page<Post> getPosts(Pageable pageable);
+	Page<Post> getCategoryPosts(Long categoryId, Pageable pageable);
 	Post getPostById(Long id);
-	Post createPost(Post post);
-	Post updatePost(Long id, Post post);
+	Post createPost(PostDto.Create postDto);
+	Post updatePost(Long id, PostDto.Update postDto);
 	void deletePost(Long id);
 }

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/head :: head">
+
+</head>
+<body>
+	<nav th:replace="common/nav"></nav>
+	
+	<div class="ui container">
+		<h3 class="ui header dividing">
+			<span th:text="${post.title}">제목입니다.</span>
+			<span class="sub header">
+				<span th:text="${post.writer}">Gyb0OA5</span> | 
+				<span th:text="${post.createdDate}">2017-06-11 09:50:56</span>
+			</span>
+		</h3>
+		
+		<div class="ui dividing custom-content" th:utext="${post.description}">
+			<p>내용입니다.</p>
+		</div>
+		
+		<div class="ui divider"></div>
+
+		<div class="ui comments">
+			<h4 class="ui dividing header">댓글 <span th:text="${#lists.size(post.comments)}"></span></h4>
+			
+			<div class="comment" th:each="comment : ${post.comments}">
+				<a class="avatar"> 
+					<img src="/img/default-avatar.jpg">
+				</a>
+				<div class="content">
+					<a class="author" th:text="${comment.writer}">Elliot Fu</a>
+					<div class="metadata">
+						<span class="date" th:text="${comment.createdDate}">2017-06-11 09:50:56</span>
+					</div>
+					<div class="text" th:text="${comment.description}">
+						<p>This has been very useful for my research. Thanks as well!</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="ui divider"></div>
+			
+			<div class="ui form">
+				<div class="field">
+					<label>댓글입력</label>
+					<textarea id="comment-description" rows="3"></textarea>
+				</div>
+				<div class="field">
+					<label>비밀번호</label>
+					<input type="password" id="comment-password">
+				</div>
+				<div id="btn-comment-insert" class="ui button">
+					<i class="icon edit"></i>댓글 등록
+				</div>
+			</div>
+			
+			<div class="ui divider"></div>
+			
+			<div class="ui button"><a href="/">목록</a></div>
+			<div id="btn-post-update" class="ui button">수정</div>
+			<div id="btn-post-delete" class="ui button">삭제</div>
+		</div>
+	</div>
+	
+	<input type="hidden" id="postId" th:value="${post.id}">
+	
+	<script>
+		$("#btn-post-update").on("click", function() {
+			var postId = $("#postId").val();
+			
+			location.href = "/post/" + postId + "/edit";
+		})
+	
+		$("#btn-post-delete").on("click", function() {
+			var postId = $("#postId").val();
+			
+			if (confirm("삭제하시겠습니까?")) {
+				$.ajax({
+					type: "POST",
+					url: "/api/post/" + postId,
+					data: {'_method': 'DELETE'},
+					dataType: "json",
+					success: function(result) {
+						alert("삭제되었습니다.");
+						location.href = "/";
+					},
+					error: function(e) {
+						console.log(e);
+					}
+				})
+			}
+		})
+		
+		$("#btn-comment-insert").on("click", function() {
+			var postId = $("#postId").val();
+			var description = $("#comment-description").val();
+			var password = $("#comment-password").val();
+			
+			if (confirm("댓글을 등록하시겠습니까?")) {
+				var data = {
+					"postId": postId,
+					"description": description,
+					"password": password,
+				};
+				
+				$.ajax({
+					type: "POST",
+					url: "/api/comment",
+					data: JSON.stringify(data),
+					dataType: "json",
+					contentType: "application/json",
+					success: function(result) {
+						alert("댓글이 등록 되었습니다.");
+						location.reload();
+					},
+					error: function(e) {
+						console.log(e);
+					}
+				})
+			}
+		})
+	</script>
+</body>
+</html>

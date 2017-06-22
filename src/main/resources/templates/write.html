@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/head :: head">
+
+</head>
+<body>
+	<nav th:replace="common/nav"></nav>
+
+	<div class="ui container">
+		<div class="ui form">
+			<div class="field">
+				<label>제목</label>
+				<input type="text" id="post-title">
+			</div>
+			
+			<div class="field">
+				<label>내용</label>
+				<textarea id="post-description"></textarea>
+			</div>
+		</div>
+		
+		<div class="ui divider"></div>
+			
+		<a href="/" class="ui button">목록</a>
+		<div id="btn-post-add" class="ui button">저장</div>
+	</div>
+		
+	<input type="hidden" id="categoryId" th:value="${categoryId}"/>
+	
+	<script>
+		CKEDITOR.replace('post-description', {
+			language: 'en',
+			customConfig: '/js/ckeditor/customConfig.js',
+			contentsCss: 'p {margin:0; font-size:12px;}'
+		});
+	
+		$("#btn-post-add").on("click", function() {
+			var title = $("#post-title").val();
+			var description = CKEDITOR.instances['post-description'].getData();
+			var categoryId = $("#categoryId").val();
+			
+			var data = {
+				"title": title,
+				"description": description,
+				"categoryId": categoryId
+			};
+
+			if (confirm("저장하시겠습니까?")) {
+				$.ajax({
+					type: "POST",
+					url: "/api/post/",
+					data: JSON.stringify(data),
+					dataType: "json",
+					contentType: "application/json",
+					success: function(result) {
+						alert("저장되었습니다.");
+						location.href = "/post/" + result.id;						
+					},
+					error: function(e) {
+						console.log(e);
+					}
+				})
+			}
+			
+		})
+	</script>
+</body>
+</html>

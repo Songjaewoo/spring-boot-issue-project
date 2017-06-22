@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.songjaewoo.model.Post;
+import com.songjaewoo.model.dto.PostDto;
 import com.songjaewoo.service.PostService;
 
 @RestController
@@ -24,12 +25,20 @@ public class PostController {
 	private PostService postService;
 	
 	@RequestMapping(value = "/posts", method = RequestMethod.GET)
-	public ResponseEntity<?> getPosts(@PageableDefault(sort = "createdDate", 
-														direction = Direction.DESC, 
-														size = 20) Pageable pageable) {
+	public ResponseEntity<?> getPosts(@PageableDefault(sort = "createdDate", direction = Direction.DESC, size = 20) Pageable pageable) {
+		
 		Page<Post> getPosts = postService.getPosts(pageable);
 		
 		return new ResponseEntity<>(getPosts, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{categoryId}/posts", method = RequestMethod.GET)
+	public ResponseEntity<?> getCategoryPosts(@PathVariable Long categoryId,
+										@PageableDefault(sort = "createdDate", direction = Direction.DESC, size = 20) Pageable pageable) {
+		
+		Page<Post> getCategoryPosts = postService.getCategoryPosts(categoryId, pageable);
+		
+		return new ResponseEntity<>(getCategoryPosts, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
@@ -40,15 +49,16 @@ public class PostController {
 	}
 	
 	@RequestMapping(value = "/post", method = RequestMethod.POST)
-	public ResponseEntity<?> createPost(@RequestBody Post post) {
-		Post createPost = postService.createPost(post);
+	public ResponseEntity<?> createPost(@RequestBody PostDto.Create postDto) {
+		Post createPost = postService.createPost(postDto);
 		
 		return new ResponseEntity<>(createPost, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/post/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody Post post) {
-		Post updatePost = postService.updatePost(id, post);
+	@RequestMapping(value = "/post/{id}/update", method = RequestMethod.POST)
+	public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody PostDto.Update postDto) {
+		//TODO METHOD PUT으로 바꿔야함..
+		Post updatePost = postService.updatePost(id, postDto);
 		
 		return new ResponseEntity<>(updatePost, HttpStatus.OK);
 	}

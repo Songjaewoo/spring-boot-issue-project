@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>index</title>
+	
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<link rel="stylesheet" href="/css/semantic.css">
+	
+	<script src="/js/jquery-1.11.1.js"></script>
+	<script src="/js/semantic.js"></script>
+	
+	<script src="/js/jquery.bootpag.js"></script>
+	<script src="/js/ckeditor/ckeditor.js"></script>
+	<script src="/js/common/commonUtil.js"></script>
+	<script src="/js/common/init.js"></script>
+</head>
+<body>
+	<div class="ui left inverted vertical menu sidebar">
+		<a class="item">Item 1</a>
+		<a class="item">Item 1</a>
+	</div>
+	
+	<div class="pusher">
+		<div class="ui menu">
+			<a class="item toggle-sidebar">
+				<i class="sidebar icon"></i>
+			</a>
+		</div>
+
+		<div class="ui container">
+			<div class="ui relaxed divided list">
+				<div class="item">
+					<div class="content">
+						<a href="#" class="header">Semantic-Org/Semantic-UI</a>
+						<div class="description">Gyb0OA5 | 2017-06-11 09:50:56</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<a class="header">Semantic-Org/Semantic-UI</a>
+						<div class="description">Gyb0OA5 | 2017-06-11 09:50:56</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<a class="header">Gyb0OA5 | 2017-06-11 09:50:56</a>
+						<div class="description">Updated 10 mins ago</div>
+					</div>
+				</div>
+			</div>
+			
+			<div style="text-align: center;">
+				<div class="ui pagination menu mini">
+					<a class="icon item">
+						<i class="left chevron icon"></i>
+					</a>
+					<a class="item active">1</a>
+					<a class="item">2</a>
+					<a class="item">3</a>
+					<a class="item">4</a>
+					<a class="item">5</a>
+					<a class="icon item">
+						<i class="right chevron icon"></i>
+					</a>
+				</div>
+			</div>
+			
+			<button class="circular ui red icon button right floated" style="position: relative; bottom: 55px;">
+			  	<i class="write icon"></i>
+			</button>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			$('.toggle-sidebar').click(function() {
+				$('.menu.sidebar').sidebar('toggle');
+			});
+		})
+	</script>
+</body>
+</html>

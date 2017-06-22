@@ -1,9 +1,46 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<title>Spring Boot Thymeleaf Hello World Example</title>
+<head th:include="common/head :: head">
+
 </head>
-<body>
-	<span th:text="${message}"></span>
+<body class="pusher">
+	<nav th:replace="common/nav"></nav>
+
+	<div class="ui container">
+		<div class="ui relaxed divided list">
+			<div class="item" th:each="post : ${posts.content}">
+				<div class="content">
+					<a th:href="@{'/post/' + ${post.id}}" th:text="${post.title}" class="header">Semantic-Org/Semantic-UI</a>
+					<div class="description">
+						<span th:text="${post.writer}">Gyb0OA5</span> | <span th:text="${post.createdDate}">2017-06-11 09:50:56</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div style="text-align: center;">
+			<div id="post-pagination">
+			</div>
+		</div>
+		
+		<button class="circular ui red icon button right floated btn-main-write" style="position: relative; bottom: 100px;">
+		  	<i class="write icon"></i>
+		</button>
+	</div>
+	
+	<input type="hidden" id="size" th:value="${posts.size}"/>
+	<input type="hidden" id="page" th:value="${posts.number} + 1"/>
+	<input type="hidden" id="totalPages" th:value="${posts.totalPages}"/>
+	<input type="hidden" id="categoryId" th:value="${categoryId}"/>
+	
+	<script>
+	var option = {
+		applyDiv: "#post-pagination",
+		total: $("#totalPages").val(),
+		page: $("#page").val(),
+		maxVisible: 5
+	}
+	CommonUtil.setPagination(option);
+	</script>	
 </body>
 </html>
